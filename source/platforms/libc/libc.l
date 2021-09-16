@@ -5,9 +5,9 @@
 ;;;
 ;;; The libc FFI
 ;;;
-(define-C-variable libc/stdin  stdin  (* "%m_libc-FILE")) ; an opaque type that we define in the prelude of the llvm backend
-(define-C-variable libc/stdout stdout (* "%m_libc-FILE"))
-(define-C-variable libc/stderr stderr (* "%m_libc-FILE"))
+(define-C-variable libc/stdin  _stdin  (* "%m_libc-FILE")) ; an opaque type that we define in the prelude of the llvm backend
+(define-C-variable libc/stdout _stdout (* "%m_libc-FILE"))
+(define-C-variable libc/stderr _stderr (* "%m_libc-FILE"))
 
 (define-C-functions libc/
   (void abort ()) (void exit (int))
