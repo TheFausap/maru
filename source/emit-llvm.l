@@ -1011,8 +1011,8 @@
     (emit INLINE (concat-strings "%word = type i" (long->string word-size) "\n"))
     (emit INLINE "%ptr = type i8*\n")
     ;; KLUDGE
-    ;;(emit INLINE "%struct._IO_FILE = type opaque\n")))
+    (emit INLINE "%struct._IO_FILE = type opaque\n")))
     ;; F. Saporito - adapted from latest clang output MacOSX
-    (emit INLINE "%struct.__sFILE = type { i8*, i32, i32, i16, i16, %struct.__sbuf, i32, i8*, i32 (i8*)*, i32 (i8*, i8*, i32)*, i64 (i8*, i64, i32)*, i32 (i8*, i8*, i32)*, %struct.__sbuf, %struct.__sFILEX*, i32, [3 x i8], [1 x i8], %struct.__sbuf, i32, i64 }\n")
-    (emit INLINE "%struct.__sFILEX = type opaque\n")
-    (emit INLINE "%struct.__sbuf = type { i8*, i32 }\n")))
+    ;;(emit INLINE "%struct.__sFILE = type { i8*, i32, i32, i16, i16, %struct.__sbuf, i32, i8*, i32 (i8*)*, i32 (i8*, i8*, i32)*, i64 (i8*, i64, i32)*, i32 (i8*, i8*, i32)*, %struct.__sbuf, %struct.__sFILEX*, i32, [3 x i8], [1 x i8], %struct.__sbuf, i32, i64 }\n")
+    ;;(emit INLINE "%struct.__sFILEX = type opaque\n")
+    ;;(emit INLINE "%struct.__sbuf = type { i8*, i32 }\n")))
