@@ -68,10 +68,10 @@
 
 (define-form define-libc-ffi ()
   '(let ()
-;    (define-C-variable libc/stdin  stdin  (* "%struct._IO_FILE")) ; KLUDGE ideally we should grovel this type, but that would be more complex than this entire project
-    (define-C-variable libc/stdin  __stdinp  (* "%struct.__sFILE")) ; KLUDGE ideally we should grovel this type, but that would be more complex than this entire project
-    (define-C-variable libc/stdout __stdoutp (* "%struct.__sFILE"))
-    (define-C-variable libc/stderr __stderrp (* "%struct.__sFILE"))
+    (define-C-variable libc/stdin  stdin  (* "%struct._IO_FILE")) ; KLUDGE ideally we should grovel this type, but that would be more complex than this entire project
+;    (define-C-variable libc/stdin  __stdinp  (* "%struct.__sFILE")) ; KLUDGE ideally we should grovel this type, but that would be more complex than this entire project
+    (define-C-variable libc/stdout stdout (* "%struct._IO_FILE"))
+    (define-C-variable libc/stderr stderr (* "%struct._IO_FILE"))
     (define-C-functions libc/
      (void abort ()) (void exit (int))
      (* malloc (size_t)) (void free (*)) (* realloc (* size_t)) (* memset (* int size_t)) (* memcpy (* * size_t)) (* memmove (* * size_t))
