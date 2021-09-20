@@ -275,44 +275,45 @@ $(EVAL0_DIR)/$(EVAL0_BINARY): $(EVAL0_DIR)
 # --eval "(set-working-directory \"$(HOST_DIR)\")"
 $(BUILD_x86)/eval0.s: $(EVAL_OBJ_x86) $(HOST_DIR)/eval source/bootstrapping/*.l $(EVALUATOR_FILES) $(EMIT_FILES_x86) boot.l
 	@mkdir -p $(BUILD_x86)
-	$(TIME) $(HOST_DIR)/eval -v						\
-		--define *host-directory* 	"$(HOST_DIR)"			\
-		--define *slave-directory* 	"$(SLAVE_DIR)"			\
-		--define *compiler-backend* 	"x86"				\
-		--define target/cpu 		$(TARGET_CPU_x86)		\
-		--define target/vendor 		$(TARGET_VENDOR)		\
-		--define target/os 		$(TARGET_OS)			\
-		source/bootstrapping/prepare.l					\
-		boot.l								\
-		$(SLAVE_DIR)/source/bootstrapping/host-ready.l			\
-		source/bootstrapping/host-extras.l				\
-		source/bootstrapping/early.l					\
-		boot.l								\
-		source/bootstrapping/slave-extras.l				\
-		source/bootstrapping/late.l					\
-		source/platforms/$(PLATFORM)/eval.l				\
-		source/emit-finish.l						\
+	$(TIME) $(HOST_DIR)/eval -v					\
+		--define *host-directory* 	"$(HOST_DIR)"		\
+		--define *slave-directory* 	"$(SLAVE_DIR)"		\
+		--define *compiler-backend* 	"x86"			\
+		--define target/cpu 		$(TARGET_CPU_x86)	\
+		--define target/vendor 		$(TARGET_VENDOR)	\
+		--define target/os 		$(TARGET_OS)		\
+		source/bootstrapping/prepare.l				\
+		boot.l							\
+		$(SLAVE_DIR)/source/bootstrapping/host-ready.l		\
+		source/bootstrapping/host-extras.l			\
+		source/bootstrapping/early.l				\
+		boot.l							\
+		source/bootstrapping/slave-extras.l			\
+		source/bootstrapping/late.l				\
+		source/platforms/$(PLATFORM)/eval.l			\
+		source/emit-finish.l					\
 			>$@ || { $(BACKDATE_FILE) $@; exit 42; }
 
 $(BITCODE_DIR)/eval0.ll: $(EVAL_OBJ_llvm) $(HOST_DIR)/eval source/bootstrapping/*.l $(EVALUATOR_FILES) $(EMIT_FILES_llvm) boot.l
 	@mkdir -p $(BUILD_llvm) $(BITCODE_DIR)
-	$(TIME) $(HOST_DIR)/eval -v						\
-		--define *host-directory* 	"$(HOST_DIR)"			\
-		--define *slave-directory* 	"$(SLAVE_DIR)"			\
-		--define *compiler-backend* 	"llvm"				\
-		--define target/cpu 		$(TARGET_CPU_llvm)		\
-		--define target/vendor 		$(TARGET_VENDOR)		\
-		source/bootstrapping/prepare.l					\
-		boot.l								\
-		$(SLAVE_DIR)/source/bootstrapping/host-ready.l			\
-		source/bootstrapping/host-extras.l				\
-		source/bootstrapping/early.l					\
-		--define feature/profiler  	$(PROFILER)			\
-		boot.l								\
-		source/bootstrapping/slave-extras.l				\
-		source/bootstrapping/late.l					\
-		source/platforms/$(PLATFORM)/eval.l				\
-		source/emit-finish.l						\
+	$(TIME) $(HOST_DIR)/eval -v					\
+		--define *host-directory* 	"$(HOST_DIR)"		\
+		--define *slave-directory* 	"$(SLAVE_DIR)"		\
+		--define *compiler-backend* 	"llvm"			\
+		--define target/cpu 		$(TARGET_CPU_llvm)	\
+		--define target/vendor 		$(TARGET_VENDOR)	\
+		--define target/os		$(TARGET_OS)		\
+		source/bootstrapping/prepare.l				\
+		boot.l							\
+		$(SLAVE_DIR)/source/bootstrapping/host-ready.l		\
+		source/bootstrapping/host-extras.l			\
+		source/bootstrapping/early.l				\
+		--define feature/profiler  	$(PROFILER)		\
+		boot.l							\
+		source/bootstrapping/slave-extras.l			\
+		source/bootstrapping/late.l				\
+		source/platforms/$(PLATFORM)/eval.l			\
+		source/emit-finish.l					\
 			>$@ || { $(BACKDATE_FILE) $@; exit 42; }
 
 # eval1 is the first version of us that gets built by our own compiler, from the latest sources.
@@ -341,42 +342,42 @@ $(BITCODE_DIR)/eval2.ll: $(BUILD_llvm)/eval1 boot.l $(EMIT_FILES_llvm) source/bo
 # a "function" to compile a maru .l file with a compiler backend
 # TODO backend duplication: they only differ in $(backend). the solution may involve .SECONDEXPANSION: and foreach. see also the other occurrances of 'backend duplication'.
 define compile-x86
-  $(TIME) $(2) $(PROFILER_ARG) -O -v						\
-	--define *host-directory* 	"$(1)"					\
-	--define *slave-directory* 	"$(SLAVE_DIR)"				\
-	--define *compiler-backend* 	"x86"					\
-	--define target/cpu 		$(TARGET_CPU_x86)			\
-	--define target/vendor 		$(TARGET_VENDOR)			\
-	--define target/os 		$(TARGET_OS)				\
-	source/bootstrapping/prepare.l						\
-	boot.l									\
-	$(SLAVE_DIR)/source/bootstrapping/host-ready.l				\
-	source/bootstrapping/early.l						\
-	--define feature/profiler 		$(PROFILER)			\
-	boot.l									\
-	source/bootstrapping/late.l						\
-	$(3)									\
-	source/emit-finish.l							\
+  $(TIME) $(2) $(PROFILER_ARG) -O -v					\
+	--define *host-directory* 	"$(1)"				\
+	--define *slave-directory* 	"$(SLAVE_DIR)"			\
+	--define *compiler-backend* 	"x86"				\
+	--define target/cpu 		$(TARGET_CPU_x86)		\
+	--define target/vendor 		$(TARGET_VENDOR)		\
+	--define target/os 		$(TARGET_OS)			\
+	source/bootstrapping/prepare.l					\
+	boot.l								\
+	$(SLAVE_DIR)/source/bootstrapping/host-ready.l			\
+	source/bootstrapping/early.l					\
+	--define feature/profiler 		$(PROFILER)		\
+	boot.l								\
+	source/bootstrapping/late.l					\
+	$(3)								\
+	source/emit-finish.l						\
 		>$(4) || { $(BACKDATE_FILE) $(4); exit 42; }
 endef
 
 define compile-llvm
-  $(TIME) $(2) $(PROFILER_ARG) -O -v						\
-	--define *host-directory* 	"$(1)"					\
-	--define *slave-directory* 	"$(SLAVE_DIR)"				\
-	--define *compiler-backend* 	llvm					\
-	--define target/cpu 		$(TARGET_CPU_llvm)			\
-	--define target/vendor 		$(TARGET_VENDOR)			\
-	--define target/os 		$(TARGET_OS)				\
-	source/bootstrapping/prepare.l						\
-	boot.l									\
-	$(SLAVE_DIR)/source/bootstrapping/host-ready.l				\
-	source/bootstrapping/early.l						\
-	--define feature/profiler 		$(PROFILER)			\
-	boot.l									\
-	source/bootstrapping/late.l						\
-	$(3)									\
-	source/emit-finish.l							\
+  $(TIME) $(2) $(PROFILER_ARG) -O -v					\
+	--define *host-directory* 	"$(1)"				\
+	--define *slave-directory* 	"$(SLAVE_DIR)"			\
+	--define *compiler-backend* 	llvm				\
+	--define target/cpu 		$(TARGET_CPU_llvm)		\
+	--define target/vendor 		$(TARGET_VENDOR)		\
+	--define target/os 		$(TARGET_OS)			\
+	source/bootstrapping/prepare.l					\
+	boot.l								\
+	$(SLAVE_DIR)/source/bootstrapping/host-ready.l			\
+	source/bootstrapping/early.l					\
+	--define feature/profiler 		$(PROFILER)		\
+	boot.l								\
+	source/bootstrapping/late.l					\
+	$(3)								\
+	source/emit-finish.l						\
 		>$(4) || { $(BACKDATE_FILE) $(4); exit 42; }
 endef
 
